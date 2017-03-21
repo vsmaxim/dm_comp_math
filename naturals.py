@@ -40,8 +40,27 @@ class Natural:
             i += 1
         return self
 
+    def shrinkZeros(self):
+        '''Функция, убирающая лидирующие нули в числе'''
+        while not self.digits[-1]:
+            self.digits.pop()
+
     def __sub__(self, oth):
-        pass
+        '''SUB_NN_N Вычитание из большего натур. меньшего, Васильев Максим'''
+        if (self <= oth):
+            self.digits, oth.digits = oth.digits, self.digits
+        over = 0
+        for i in range(len(self.digits) - 1):
+            self.digits[i + 1] -= 1
+            self.digits[i] += 10
+        for i in range(len(oth.digits)):
+            self.digits[i] = self.digits[i] - oth.digits[i]
+        for i in range(len(self.digits)):
+            cur = self.digits[i] + over
+            self.digits[i] = cur % 10
+            over = cur // 10
+        self.shrinkZeros()
+        return self         
     
     def isZero(self):
         '''NZER_N_B Проверка на ноль, Васильев Максим'''
@@ -72,6 +91,6 @@ class Natural:
     
 
 a = Natural('10000')
-b = Natural('9999991')
-print(b.inc())
+b = Natural('8888')
+print(b - a)
     
