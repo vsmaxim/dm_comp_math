@@ -63,7 +63,9 @@ class Natural:
             res[i] %= 10
         if r:
             res.append(r)
-        return res
+        b = Natural('')
+        b.digits = res
+        return b
 
     def mulNk(self,k):
         '''MUL_Nk_N Умножение на 10^k, Гусева Екатерина'''
