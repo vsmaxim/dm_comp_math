@@ -14,7 +14,7 @@ class Natural:
             return False
         else:
             for i in range(len(self.digits)):
-                if self.digits[i] < oth.digits[i]:
+                if self.digits[i] < oth.digits[i]: 
                     return True
                 elif self.digits[i] > oth.digits[i]:
                     return False
@@ -35,7 +35,7 @@ class Natural:
             if (i == len(self.digits)):
                 self.digits.append(0)
             cur = over + self.digits[i]
-            over = cur // 10
+            over = cur // 10 
             self.digits[i] = cur % 10
             i += 1
         return self
@@ -69,7 +69,9 @@ class Natural:
 
     def mulNk(self,k):
         '''MUL_Nk_N Умножение на 10^k, Гусева Екатерина'''
-        return [0] * k + self.digits
+        oth = Natural('')
+        oth.digits = [0] * k + self.digits
+        return oth
 
     def shrinkZeros(self):
         '''Функция, убирающая лидирующие нули в числе'''
@@ -119,10 +121,14 @@ class Natural:
             self.digits[i] += 1
         return self
 
+    def subNk(self, oth, k):
+        '''SUB_NDN_N Вычитание из натурального числа другого
+        натурального умноженного на цифру Васильев Максим'''
+        return self - oth.mulk(k)
+
     
 if __name__ == '__main__':
     a = Natural(input())
-
-    for i in range(10):
-        print('For {} mul is {}'.format(i, ''.join(str(i) for i in reversed(a.mulNk(i)))))
+    b = Natural(input())
+    print(a.subNk(b, 2))
     
