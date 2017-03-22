@@ -40,6 +40,35 @@ class Natural:
             i += 1
         return self
 
+    def __mod__(self, num):
+        while self <= num:
+            self = self - num
+        return self
+
+    def __floordiv__(self, num):
+        k = 0
+        while self <= num:
+            self = self - num
+            k += 1
+        return k
+
+    def mulk(self, k):
+        '''MUL_ND_N Умножение на цифру, Гусева Екатерина'''
+        res = [0] * len(self.digits)
+        ost = 0
+        r = 0
+        for i in range(len(self.digits)):
+            res[i] = self.digits[i] * k + r
+            r = res[i] // 10
+            res[i] %= 10
+        if r:
+            res.append(r)
+        return res
+
+    def mulNk(self,k):
+        '''MUL_Nk_N Умножение на 10^k, Гусева Екатерина'''
+        return [0] * k + self.digits
+
     def shrinkZeros(self):
         '''Функция, убирающая лидирующие нули в числе'''
         while not self.digits[-1]:
@@ -90,7 +119,8 @@ class Natural:
 
     
 
-a = Natural('10000')
-b = Natural('8888')
-print(b - a)
+a = Natural(input())
+
+for i in range(10):
+    print('For {} mul is {}'.format(i, ''.join(str(i) for i in reversed(a.mulNk(i)))))
     
