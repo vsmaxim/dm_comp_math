@@ -12,7 +12,7 @@ class Natural:
         elif len(self.digits) > len(oth.digits):
             return False
         else:
-            for i in range(len(self.digits)):
+            for i in range(len(self.digits) - 1, -1, -1):
                 if self.digits[i] < oth.digits[i]:
                     return True
                 elif self.digits[i] > oth.digits[i]:
@@ -27,7 +27,7 @@ class Natural:
         elif len(self.digits) > len (oth.digits):
             return False
         else:
-            for i in range(len(self.digits)):
+            for i in range(len(self.digits) -1, -1, -1):
                 if self.digits[i] < oth.digits[i]: 
                     return True
                 elif self.digits[i] > oth.digits[i]:
@@ -54,8 +54,20 @@ class Natural:
             i += 1
         return self
     
+    def __mul__(self,oth):
+        '''Умножение длинных чисел'''
+        if (self <= oth):
+            self.digits, oth.digits = oth.digits, self.digits
+        p = Natural('0')
+        for i in range(len(oth.digits)):
+            k = oth.digits[i]
+            c = self.mulk(k)
+            c = c.mulNk(i)
+            p = p + c
+        return p
+
     def reverse(self):
-        self.digits = [str(i) for i in reversed(self.digits)]
+        self.digits = [int(i) for i in reversed(self.digits)]
         return self
     
     def mulk(self, k):
@@ -101,6 +113,7 @@ class Natural:
             cur = self.digits[i] + over
             self.digits[i] = cur % 10
             over = cur // 10
+        #print("Division: self - {}".format(self))
         self.shrinkZeros()
         return self         
     
@@ -149,13 +162,16 @@ class Natural:
                 divided = True
                 k = 0
                 while num <= cur:
+                    #print('For {} run cur is {} num is {}'.format(k, cur, num))
                     cur = cur - num
                     k += 1
+                    #print('For {} run cur is {} num is {}'.format(k, cur, num))
+                    #print(num <= cur)
                 res.digits.append(k)
             if curNum.isZero() and cur.isZero():
                 res.digits = res.digits + curNum.digits
                 break
-        return [res.reverse(), cur.reverse()]
+        return [res.reverse(), cur]
 
     def __mod__(self, num):
         '''Взятие остатка от деления, Васильев Максим'''
@@ -170,14 +186,16 @@ class Natural:
         while zero < self and zero < b:
             if (self < b):
                 b = b % self
+                # print(b)
             else:
                 self = self % b
+                # print(self)
+        return self + b
 
     def lcm(self, b):
-        return (self * b) // gcd(self, b)
+        return (self * b) // self.gcd(b)
 
-
-a = Natural('12')
-b = Natural('24')
+a = Natural('1635203')
+b = Natural('8937')
 print(a.gcd(b))
-print(a.lcm(b))    
+print(a.lcm(b))
