@@ -6,6 +6,20 @@ class Natural:
     def __str__(self):
         return ''.join([str(i) for i in reversed(self.digits)])
     
+    def __lt__(self, oth):
+        if len(self.digits) < len(oth.digits):
+            return True
+        elif len(self.digits) > len(oth.digits):
+            return False
+        else:
+            for i in range(len(self.digits)):
+                if self.digits[i] < oth.digits[i]:
+                    return True
+                elif self.digits[i] > oth.digits[i]:
+                    return False
+        return False
+
+
     def __le__(self, oth):
         '''COM_NN_D Сравнение двух чисел, Васильев Максим'''
         if len(self.digits) < len(oth.digits):
@@ -39,19 +53,11 @@ class Natural:
             self.digits[i] = cur % 10
             i += 1
         return self
-
-    def __mod__(self, num):
-        while self <= num:
-            self = self - num
+    
+    def reverse(self):
+        self.digits = [str(i) for i in reversed(self.digits)]
         return self
-
-    def __floordiv__(self, num):
-        k = 0
-        while self <= num:
-            self = self - num
-            k += 1
-        return k
-
+    
     def mulk(self, k):
         '''MUL_ND_N Умножение на цифру, Гусева Екатерина'''
         res = [0] * len(self.digits)
@@ -75,8 +81,11 @@ class Natural:
 
     def shrinkZeros(self):
         '''Функция, убирающая лидирующие нули в числе'''
-        while not self.digits[-1]:
-            self.digits.pop()
+        try:
+            while not self.digits[-1]:
+                self.digits.pop()
+        except:
+            pass
 
     def __sub__(self, oth):
         '''SUB_NN_N Вычитание из большего натур. меньшего, Васильев Максим'''
@@ -97,11 +106,10 @@ class Natural:
     
     def isZero(self):
         '''NZER_N_B Проверка на ноль, Васильев Максим'''
-        if len(self.digits) == 1 and self.digits[i] == 0:
-        #Число длины 1 и последней цифрой 0 - является нулём 
-            return True
-        else:
-            return False
+        for i in self.digits:
+            if i:
+                return False
+        return True
 
     def inc(self):
         '''ADD_1N_N Добавление единицы, Васильев Максим'''
@@ -125,10 +133,51 @@ class Natural:
         '''SUB_NDN_N Вычитание из натурального числа другого
         натурального умноженного на цифру Васильев Максим'''
         return self - oth.mulk(k)
+    
+    def div(self, num):
+        '''Деление числа на число столбиком, Васильев Максим'''
+        cur = Natural('')
+        res = Natural('') 
+        curNum = Natural(str(self))
+        divided = False
+        for i in range(len(self.digits) - 1, -1, -1):
+            cur.digits = [self.digits[i]] + cur.digits
+            if divided and cur < num:
+                res.digits.append(0)
+            curNum.digits.pop()
+            if num <= cur:
+                divided = True
+                k = 0
+                while num <= cur:
+                    cur = cur - num
+                    k += 1
+                res.digits.append(k)
+            if curNum.isZero() and cur.isZero():
+                res.digits = res.digits + curNum.digits
+                break
+        return [res.reverse(), cur.reverse()]
 
+    def __mod__(self, num):
+        '''Взятие остатка от деления, Васильев Максим'''
+        return self.div(num)[1]
     
-if __name__ == '__main__':
-    a = Natural(input())
-    b = Natural(input())
-    print(a.subNk(b, 2))
+    def __floordiv__(self, num):
+        '''Взятие целой части от деления, Васильев Максим'''
+        return self.div(num)[0]
     
+    def gcd(self, b):
+        zero = Natural('0')
+        while zero < self and zero < b:
+            if (self < b):
+                b = b % self
+            else:
+                self = self % b
+
+    def lcm(self, b):
+        return (self * b) // gcd(self, b)
+
+
+a = Natural('12')
+b = Natural('24')
+print(a.gcd(b))
+print(a.lcm(b))    
