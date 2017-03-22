@@ -120,9 +120,9 @@ class Natural:
         return self
 
     
+if __name__ == '__main__':
+    a = Natural(input())
 
-a = Natural(input())
-
-for i in range(10):
-    print('For {} mul is {}'.format(i, ''.join(str(i) for i in reversed(a.mulNk(i)))))
+    for i in range(10):
+        print('For {} mul is {}'.format(i, ''.join(str(i) for i in reversed(a.mulNk(i)))))
     

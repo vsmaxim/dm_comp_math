@@ -30,5 +30,6 @@ class Integer(Natural):
         pass
     def iton(self):
         pass
-
-a = Integer('-1233')
+#Для тестов
+if __name__ == '__main__':
+    a = Integer('-1233')
