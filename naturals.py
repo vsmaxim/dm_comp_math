@@ -94,7 +94,7 @@ class Natural:
     def shrinkZeros(self):
         '''Функция, убирающая лидирующие нули в числе'''
         try:
-            while not self.digits[-1]:
+            while not self.digits[-1] and len(self.digits) - 1:
                 self.digits.pop()
         except:
             pass
