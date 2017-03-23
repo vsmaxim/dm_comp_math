@@ -1,12 +1,15 @@
 class Natural:
 
     def __init__(self, digits):
+        '''Конструктор натурального числа, Васильев Максим'''
         self.digits = [int(i) for i in reversed(digits)]
 
     def __str__(self):
+        '''Строковое представление натурального числа, Васильев Максим'''
         return ''.join([str(i) for i in reversed(self.digits)])
     
     def __lt__(self, oth):
+        '''Перегрузка оператора < для натуральных чисел, Васильев Максим'''
         if len(self.digits) < len(oth.digits):
             return True
         elif len(self.digits) > len(oth.digits):
@@ -55,7 +58,7 @@ class Natural:
         return self
     
     def __mul__(self,oth):
-        '''Умножение длинных чисел'''
+        '''Умножение длинных чисел, Гусева Екатерина'''
         if (self <= oth):
             self.digits, oth.digits = oth.digits, self.digits
         p = Natural('0')
@@ -67,6 +70,7 @@ class Natural:
         return p
 
     def reverse(self):
+        '''Функция, переворачивающая число, Васильев Максим'''
         self.digits = [int(i) for i in reversed(self.digits)]
         return self
     
@@ -182,6 +186,7 @@ class Natural:
         return self.div(num)[0]
     
     def gcd(self, b):
+        '''НОД двух натуральных чисел (алгоритм Евклида), Васильев Максим'''
         zero = Natural('0')
         while zero < self and zero < b:
             if (self < b):
@@ -193,9 +198,12 @@ class Natural:
         return self + b
 
     def lcm(self, b):
+        '''НОК двух натуральных чисел, Васильев Максим'''
         return (self * b) // self.gcd(b)
 
-a = Natural('1635203')
-b = Natural('8937')
-print(a.gcd(b))
-print(a.lcm(b))
+#Для тестов 
+if __name__ == '__main__':
+    a = Natural('1635203')
+    b = Natural('8937')
+    print(a.gcd(b))
+    print(a.lcm(b))

@@ -2,11 +2,13 @@ from naturals import Natural
 
 class Integer(Natural):
     def __init__(self, digits):
+        '''Конструктор целого числа, Васильев Максим'''
         self.negative = digits[0] == '-'
         if self.negative:
             digits = digits[1:]
         self.digits = [int(i) for i in reversed(digits)]
     def __str__(self):
+        '''Представление целого числа в строке, Васильев Максим'''
         s = ''
         if self.isZero():
             return '0'
@@ -26,6 +28,7 @@ class Integer(Natural):
         return res
     
     def isZero(self):
+        '''Проверка целого числа на ноль, Васильев Максим'''
         for i in range(len(self.digits)):
             if self.digits[i]:
                 return False
@@ -41,12 +44,14 @@ class Integer(Natural):
         else:
             return 1
     def ton(self):
-        return Natural(''.join(str(i) for i in self.digits))
+        '''Преобразование Integer->Natural, Васильев Максим'''
+        return Natural(str(self.abs()))
 
     def __add__(self, oth):
+        '''Сложение двух целых чисел, Васильев Максим'''
         result = Integer('0')
-        a = Natural(str(self.abs()))
-        b = Natural(str(oth.abs()))
+        a = self.ton()
+        b = oth.ton()
         if self.negative == oth.negative:
             result = Integer(str(a + b))
             result.negative = self.negative
@@ -58,9 +63,38 @@ class Integer(Natural):
                 result.negative = self.negative
         return result
             
+    def __sub__(self, oth):
+        '''Вычитание двух целых чисел, Васильев Максим'''
+        return self + -oth
+
+    def __mul__(self, oth):
+        '''Умножение двух целых чисел, Васильев Максим'''
+        a = self.ton()
+        b = oth.ton()
+        result = Integer(str(a * b))
+        result.negative = self.negative != oth.negative
+        return result
+    
+    def div(self, oth):
+        '''Деление, возвращающее остаток и целую часть, Васильев Максим'''
+        a = self.ton()
+        b = oth.ton()
+        res = a.div(b)
+        for i in res:
+            i = Integer(str(i))
+            i.negative = self.negative != oth.negative
+        return res
+
+    def __mod__(self, oth):
+        '''Перегрузка операции %, остаток от деления'''
+        return self.div(oth)[1]
+
+    def __div__(self, oth):
+        '''Перегрузка операции //, целая часть от деления'''
+        return self.div(oth)[0]
             
 #Для тестов
 if __name__ == '__main__':
-    a = Integer('1233')
-    b = Integer('-1233')
-    print(a + b)
+    a = Integer('-10')
+    b = Integer('-8')
+    print(a % b)
