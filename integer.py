@@ -17,8 +17,9 @@ class Integer(Natural):
         return s + ''.join(str(i) for i in reversed(self.digits))
     def __neg__(self):
         '''MUL_ZM_Z Умножение целого на -1, Васильев Максим'''
-        self.negative = not self.negative
-        return self
+        a = Integer(str(self))
+        a.negative = not a.negative
+        return a
 
     def abs(self):
         '''ABS_Z_N Абсолютная величина числа, Васильев Максим''' 
@@ -42,7 +43,7 @@ class Integer(Natural):
         elif self.negative:
             return -1
         else:
-            return 1
+            return 1    
     def ton(self):
         '''Преобразование Integer->Natural, Васильев Максим'''
         return Natural(str(self.abs()))

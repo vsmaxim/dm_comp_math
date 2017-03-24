@@ -8,6 +8,16 @@ class Natural:
         '''Строковое представление натурального числа, Васильев Максим'''
         return ''.join([str(i) for i in reversed(self.digits)])
     
+    def __eq__(self, oth):
+        '''Перегрузка оператора == для натуральных чисел, Васильев Максим'''
+        if len(self.digits) != len(oth.digits):
+            return False
+        else:
+            for i in range(len(self.digits)):
+                if self.digits[i] != oth.digits[i]:
+                    return False
+            return True
+
     def __lt__(self, oth):
         '''Перегрузка оператора < для натуральных чисел, Васильев Максим'''
         if len(self.digits) < len(oth.digits):
