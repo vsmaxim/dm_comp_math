@@ -58,9 +58,32 @@ class Polynome:
     def __sub__(self, oth):
         '''Вычитание многочленов, Васильев Максим'''
         return self + -oth
+
+    def mulM(self, k, n):
+        '''Умножение многочлена на моном с рациональным коэффициентом
+        k и степенью i, Васильев Максим'''
+        a = Polynome('0/1')
+        maxDeg = len(self.coeffs) + n
+        while len(a.coeffs) != maxDeg:
+            a.coeffs.append(Rational('0/1'))
+        for i in range(len(self.coeffs)):
+            a.coeffs[i + n] = self.coeffs[i] * k
+        return a
+
+    def __mul__(self, oth):
+        '''Умножение многочленов, Васильев Максим'''
+        a = Polynome(self.tostr())
+        b = Polynome(oth.tostr())
+        res = Polynome('0/1')
+        if a.lessDeg(b):
+            a, b = b, a
+        for i in range(len(b.coeffs)):
+            res = res + a.mulM(b.coeffs[i], i)
+        return res
+
             
 
 if __name__ == '__main__':
-    x = Polynome('1/1 1/1 1/1 1/1')
-    y = Polynome('1/1 1/1 1/1')
-    print(x - y)
+    x = Polynome('1/1 1/1 1/1 1/1') #x^3 + x^2 + x + 1
+    y = Polynome('1/1 1/1 1/1') #x^2 + x + 1
+    print(x * y)
