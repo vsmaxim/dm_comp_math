@@ -31,6 +31,14 @@ class Polynome:
         которую требует конструктор на вход, Васильев Максим'''
         return ' '.join(str(i) for i in reversed(self.coeffs))
 
+    def deg(self):
+        '''Возвращает степень многочлена, Васильев Максим'''
+        return len(self.coeffs)
+    
+    def lead(self):
+        '''Возвращает старший коэффициент многочлена, Васильев Максим'''
+        return self.coeffs[-1]
+
     def lessDeg(self, oth):
         '''Возвращает true если степень self < oth, Васильев Максим'''
         if len(self.coeffs) < len(oth.coeffs):
@@ -80,10 +88,18 @@ class Polynome:
         for i in range(len(b.coeffs)):
             res = res + a.mulM(b.coeffs[i], i)
         return res
+    
+    def derivative(self):
+        '''Вычисление производной от многочлена, Васильев Максим'''
+        a = Polynome(self.tostr())
+        a.coeffs = a.coeffs[1:]
+        for i in range(len(a.coeffs)):
+            a.coeffs[i] = a.coeffs[i] * Rational(str(i + 1) + '/1')
+        return a
 
             
 
 if __name__ == '__main__':
     x = Polynome('1/1 1/1 1/1 1/1') #x^3 + x^2 + x + 1
-    y = Polynome('1/1 1/1 1/1') #x^2 + x + 1
-    print(x * y)
+    y = Polynome('1/1 1/1') #x^2 + x + 1
+    print(x.derivative())
