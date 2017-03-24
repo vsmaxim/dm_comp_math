@@ -32,6 +32,9 @@ class Rational:
         '''Вычитание рациональных чисел, Васильев Максим'''
         return self + -oth
 
+    def __mul__(self,oth):
+       return Rational(str(self.numer * oth.numer) + '/' + str(self.denom * oth.denom)).red()
+
     def isInteger(self):
         '''Проверка, является ли дробь - целым, Васильев Максим'''
         if (self.numer.ton() % self.denom).isZero():
@@ -47,12 +50,24 @@ class Rational:
         self.denom = den // gcd
         return self
 
+    def turn(self):
+        '''Получение вида 1/x - для дроби, Васильев Максим'''
+        n_den = Natural(str(self.numer.abs()))
+        n_num = Integer(str(self.denom))
+        n_num.negative = self.numer.negative
+        return Rational(str(n_num) + '/' + str(n_den))
+
+    def __truediv__(self, oth):
+        '''Деление рациональных, Васильев Максим'''
+        return self * oth.turn()
+
+
     def toi(self):
-        '''Преорбразование в целое рационального, Васильев Максим'''
+        '''Преобразование в целое рационального, Васильев Максим'''
         if self.denom == Natural('1'):
             return Integer(str(self.numer))
 
 if __name__ == '__main__':
     a = Rational('1/3')
     b = Rational('1/4')
-    print(a + b)
+    print(a / b)
