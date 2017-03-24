@@ -80,14 +80,18 @@ class Integer(Natural):
         a = self.ton()
         b = oth.ton()
         res = a.div(b)
-        for i in res:
-            i = Integer(str(i))
-            i.negative = self.negative != oth.negative
+        for i in range(len(res)):
+            res[i] = Integer(str(res[i]))
+            res[i].negative = self.negative != oth.negative
         return res
 
     def __mod__(self, oth):
         '''Перегрузка операции %, остаток от деления'''
-        return self.div(oth)[1]
+        res = self.div(oth)[1]
+        if res.negative:
+            res = res + oth.abs()
+        return res           
+
 
     def __div__(self, oth):
         '''Перегрузка операции //, целая часть от деления'''
@@ -96,5 +100,5 @@ class Integer(Natural):
 #Для тестов
 if __name__ == '__main__':
     a = Integer('-10')
-    b = Integer('-8')
-    print(a % b)
+    b = Integer('7')
+    print(a // b)

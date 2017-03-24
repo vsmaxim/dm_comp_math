@@ -39,32 +39,36 @@ class Natural:
 
     def __add__(self, oth):
         '''ADD_NN_N Сложение двух чисел, Васильев Максим'''
-        if (self <= oth): #Делаем так, чтобы в self хранилось большее число
-            self.digits, oth.digits = oth.digits, self.digits
+        a = Natural(str(self))
+        b = Natural(str(oth))
+        if (a <= b): #Делаем так, чтобы в self хранилось большее число
+            a.digits, b.digits = b.digits, a.digits
         over = 0
-        for i in range(len(oth.digits)): #Складываем поразрядно с числом oth
-            cur = over + self.digits[i] + oth.digits[i]
+        for i in range(len(b.digits)): #Складываем поразрядно с числом oth
+            cur = over + a.digits[i] + b.digits[i]
             over = cur // 10
-            self.digits[i] = cur % 10
+            a.digits[i] = cur % 10
 
-        i = len(oth.digits)
+        i = len(b.digits)
         while over > 0: #Избавляемся от переполнения разрядов
-            if (i == len(self.digits)):
-                self.digits.append(0)
-            cur = over + self.digits[i]
+            if (i == len(a.digits)):
+                a.digits.append(0)
+            cur = over + a.digits[i]
             over = cur // 10 
-            self.digits[i] = cur % 10
+            a.digits[i] = cur % 10
             i += 1
-        return self
+        return a
     
     def __mul__(self,oth):
         '''Умножение длинных чисел, Гусева Екатерина'''
-        if (self <= oth):
-            self.digits, oth.digits = oth.digits, self.digits
+        a = Natural(str(self))
+        b = Natural(str(oth))
+        if a < b:
+            a.digits, b.digits = b.digits, a.digits
         p = Natural('0')
         for i in range(len(oth.digits)):
-            k = oth.digits[i]
-            c = self.mulk(k)
+            k = b.digits[i]
+            c = a.mulk(k)
             c = c.mulNk(i)
             p = p + c
         return p
@@ -105,21 +109,23 @@ class Natural:
 
     def __sub__(self, oth):
         '''SUB_NN_N Вычитание из большего натур. меньшего, Васильев Максим'''
-        if (self <= oth):
-            self.digits, oth.digits = oth.digits, self.digits
+        a = Natural(str(self))
+        b = Natural(str(oth))
+        if (a <= b):
+            a.digits, b.digits = b.digits, a.digits
         over = 0
-        for i in range(len(self.digits) - 1):
-            self.digits[i + 1] -= 1
-            self.digits[i] += 10
-        for i in range(len(oth.digits)):
-            self.digits[i] = self.digits[i] - oth.digits[i]
-        for i in range(len(self.digits)):
-            cur = self.digits[i] + over
-            self.digits[i] = cur % 10
+        for i in range(len(a.digits) - 1):
+            a.digits[i + 1] -= 1
+            a.digits[i] += 10
+        for i in range(len(b.digits)):
+            a.digits[i] = a.digits[i] - b.digits[i]
+        for i in range(len(a.digits)):
+            cur = a.digits[i] + over
+            a.digits[i] = cur % 10
             over = cur // 10
         #print("Division: self - {}".format(self))
-        self.shrinkZeros()
-        return self         
+        a.shrinkZeros()
+        return a        
     
     def isZero(self):
         '''NZER_N_B Проверка на ноль, Васильев Максим'''
@@ -203,7 +209,5 @@ class Natural:
 
 #Для тестов 
 if __name__ == '__main__':
-    a = Natural('1635203')
-    b = Natural('8937')
-    print(a.gcd(b))
-    print(a.lcm(b))
+    a = Natural('333')
+    b = Natural('3')
