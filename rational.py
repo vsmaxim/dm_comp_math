@@ -13,10 +13,16 @@ class Rational:
         return '{}/{}'.format(self.numer, self.denom)
 
     def __neg__(self):
+        '''Умножение дроби на -1, Васильев Максим'''
         a = Rational(str(self))
         a.numer = -a.numer
         return a
-    
+
+    def __gt__(self, oth):
+        '''Сравнение двух дробей, Васильев Максим'''
+        return (oth - self).numer.negative
+
+
     def __add__(self,oth):
         '''Сложение рациональных чисел, Гусева Екатерина'''
         a = Rational(str(self))

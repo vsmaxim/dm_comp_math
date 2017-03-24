@@ -33,7 +33,11 @@ class Polynome:
 
     def deg(self):
         '''Возвращает степень многочлена, Васильев Максим'''
-        return len(self.coeffs)
+        for i in range(len(self.coeffs) - 1, -1, -1):
+            if not self.coeffs[i].numer.isZero():
+                return i
+        if len(self.coeffs) == 0:
+            return -1
     
     def lead(self):
         '''Возвращает старший коэффициент многочлена, Васильев Максим'''
@@ -41,10 +45,28 @@ class Polynome:
 
     def lessDeg(self, oth):
         '''Возвращает true если степень self < oth, Васильев Максим'''
-        if len(self.coeffs) < len(oth.coeffs):
+        if self.deg() < oth.deg():
             return True
         else:
             return False
+
+    def moreeqDeg(self, oth):
+        if self.deg() >= oth.deg():
+            return True
+        else:
+            return False
+
+    def __gt__(self, oth):
+        if self.deg() > oth.deg():
+            return True
+        elif self.deg() < oth.deg():
+            return False
+        else:
+            for i in range(self.deg(), -1, -1):
+                if self.coeffs[i] > oth.coeffs[i]:
+                    return True
+                else:
+                    return False
 
     def __add__(self, oth):
         '''Сложение многочленов, Васильев Максим'''
@@ -96,10 +118,45 @@ class Polynome:
         for i in range(len(a.coeffs)):
             a.coeffs[i] = a.coeffs[i] * Rational(str(i + 1) + '/1')
         return a
+    
+    def div(self, oth):
+        '''Деление многочленов столбиком, Васильев Максим'''
+        a = Polynome(self.tostr())
+        b = Polynome(oth.tostr())
+        da = a.deg() - b.deg()
+        res = Polynome('0/1')
+        res.coeffs = [Rational('0/1') for i in range(da + 1)]
+        i = 0
+        while a.moreeqDeg(b):
+            cur = b.mulM(a.coeffs[-1], da - i)
+            res.coeffs[da - i] = a.coeffs[-1]
+            a = a - cur
+            i += 1
+            a.coeffs.pop()
+        return [res, a]
 
+    def __floordiv__(self, oth):
+        '''Целая часть от деления многочленов, Васильев Максим'''
+        return self.div(oth)[0]
+
+    def __mod__(self, oth):
+        '''Остаток от деления многочленов, Васильев Максим'''
+        return self.div(oth)[1]
+
+    # def gcd(self, oth):
+    #     a = Polynome(self.tostr())
+    #     b = Polynome(oth.tostr())
+    #     while a.deg() >= 0 and b.deg() >= 0:
+    #         if (a > b):
+    #             a = a % b
+    #         else:
+    #             b = b % a
+    #     return a + b
             
 
 if __name__ == '__main__':
-    x = Polynome('1/1 1/1 1/1 1/1') #x^3 + x^2 + x + 1
-    y = Polynome('1/1 1/1') #x^2 + x + 1
-    print(x.derivative())
+    x = Polynome('2/1 -1/1 0/1 12/1 -72/1 0/1 3/1') 
+    y = Polynome('1/1 2/1 0/1 -1/1') 
+    print(x // y)
+    print(x % y)
+    print(x.gcd(y))
