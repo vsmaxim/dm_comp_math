@@ -22,6 +22,9 @@ class Rational:
         '''Сравнение двух дробей, Васильев Максим'''
         return (oth - self).numer.negative
 
+    def isZero(self):
+        return self.numer.isZero()
+
 
     def __add__(self,oth):
         '''Сложение рациональных чисел, Гусева Екатерина'''
@@ -39,7 +42,8 @@ class Rational:
         return self + -oth
 
     def __mul__(self,oth):
-       return Rational(str(self.numer * oth.numer) + '/' + str(self.denom * oth.denom)).red()
+        '''Умножение рациональных чисел, Гусева Екатерина'''
+        return Rational(str(self.numer * oth.numer) + '/' + str(self.denom * oth.denom)).red()
 
     def isInteger(self):
         '''Проверка, является ли дробь - целым, Васильев Максим'''

@@ -76,7 +76,7 @@ class Natural:
         if a < b:
             a.digits, b.digits = b.digits, a.digits
         p = Natural('0')
-        for i in range(len(oth.digits)):
+        for i in range(len(b.digits)):
             k = b.digits[i]
             c = a.mulk(k)
             c = c.mulNk(i)
@@ -219,5 +219,6 @@ class Natural:
 
 #Для тестов 
 if __name__ == '__main__':
-    a = Natural('333')
-    b = Natural('3')
+    a = Natural('122')
+    b = Natural('10')
+    print(a * b)

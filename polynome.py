@@ -36,8 +36,7 @@ class Polynome:
         for i in range(len(self.coeffs) - 1, -1, -1):
             if not self.coeffs[i].numer.isZero():
                 return i
-        if len(self.coeffs) == 0:
-            return -1
+        return -1
     
     def lead(self):
         '''Возвращает старший коэффициент многочлена, Васильев Максим'''
@@ -128,9 +127,11 @@ class Polynome:
         res.coeffs = [Rational('0/1') for i in range(da + 1)]
         i = 0
         while a.moreeqDeg(b):
-            cur = b.mulM(a.coeffs[-1], da - i)
             res.coeffs[da - i] = a.coeffs[-1]
-            a = a - cur
+            #print(res)
+            if not a.coeffs[-1].isZero():
+                cur = b.mulM(a.coeffs[-1], da - i)
+                a = a - cur
             i += 1
             a.coeffs.pop()
         return [res, a]
@@ -143,20 +144,26 @@ class Polynome:
         '''Остаток от деления многочленов, Васильев Максим'''
         return self.div(oth)[1]
 
-    # def gcd(self, oth):
-    #     a = Polynome(self.tostr())
-    #     b = Polynome(oth.tostr())
-    #     while a.deg() >= 0 and b.deg() >= 0:
-    #         if (a > b):
-    #             a = a % b
-    #         else:
-    #             b = b % a
-    #     return a + b
+    def gcd(self, oth):
+        '''НОД многочленов, Васильев Максим'''
+        a = Polynome(self.tostr())
+        b = Polynome(oth.tostr())
+        zero = Polynome('0/1')
+        while a > zero and b > zero:
+            if (a > b):
+                a = a % b
+            else:
+                b = b % a
+        return a + b
+
+    def nmr(self):
+        '''Кратные корни в простые, Васильев Максим'''
+        return self // self.gcd(self.derivative())
             
 
 if __name__ == '__main__':
-    x = Polynome('2/1 -1/1 0/1 12/1 -72/1 0/1 3/1') 
-    y = Polynome('1/1 2/1 0/1 -1/1') 
+    x = Polynome('1/1 0/1 -1/1') 
+    y = Polynome('1/1 1/1') 
     print(x // y)
     print(x % y)
     print(x.gcd(y))
