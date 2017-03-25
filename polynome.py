@@ -17,13 +17,17 @@ class Polynome:
         '''Возвращает строковое представление многочлена, Васильев Максим'''
         s = ''
         for i in range(len(self.coeffs)):
+            if self.coeffs[i].numer.isZero():
+                continue
             if not self.coeffs[i].numer.negative:
                 buf = '+ {}'.format(self.coeffs[i])
             else:
                 buf = '{}'.format(self.coeffs[i])
             s = '{}{} '.format(buf, xi(i)) + s
-        if s[0] == '+':
+        if len(s) and s[0] == '+':
             s = s[2:]
+        elif not len(s):
+            s = '0'
         return s
     
     def tostr(self):
@@ -166,4 +170,3 @@ if __name__ == '__main__':
     y = Polynome('1/1 1/1') 
     print(x // y)
     print(x % y)
-    print(x.gcd(y))
