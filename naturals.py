@@ -238,12 +238,23 @@ class Natural:
     def lcm(self, b):
         '''НОК двух натуральных чисел, Васильев Максим'''
         return (self * b) // self.gcd(b)
+    
+    def sqrt(self):
+        '''Поиск примерного корня двоичным поиском, Васильев Максим'''
+        two = Natural('2')
+        a = Natural(str(self))
+        left = Natural('0')
+        right = Natural(str(a))
+        while left < right - Natural('1'):
+            m = (left + right) // two
+            if (m ** two) < a:
+                left = m
+            else:
+                right = m
+        return m
 
 #Для тестов 
 if __name__ == '__main__':
     a = Natural('2')
-    b = Natural('1000')
-    print(Natural('30') % Natural('2'))
-    print(b.bin())
-    print(a ** b)
-    print(str(a ** b) == str(2 ** 1000))
+    b = Natural('45893')
+    print(b.sqrt())

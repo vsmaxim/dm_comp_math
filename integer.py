@@ -54,6 +54,15 @@ class Integer(Natural):
             return -1
         else:
             return 1
+
+    def __le__(self, oth):
+        if self.negative != oth.negative:
+            return self.negative
+        else:
+            if self.negative:
+                return not self.abs().ton() < oth.abs().ton()
+            else:
+                return self.abs().ton() < oth.abs().ton()
                 
     def ton(self):
         '''Преобразование Integer->Natural, Васильев Максим'''
@@ -108,9 +117,25 @@ class Integer(Natural):
     def __div__(self, oth):
         '''Перегрузка операции //, целая часть от деления'''
         return self.div(oth)[0]
+
+    def ferma(self):
+        '''Метод ферма для нечетных чисел, и четных имеющих в разложении 2 
+        более чем в 1 степени, Васильев Максим'''
+        a = Integer(str(self.ton().sqrt()))    
+        rx = Integer('2') * a + Integer('1')
+        ry = Integer('1')
+        rxy = a ** Integer('2') - self
+        while not rxy.isZero():
+            if rxy <= Integer('0'):
+                rxy = rxy + rx
+                rx = rx + Integer('2')
+            else:
+                rxy = rxy - ry
+                ry = ry + Integer('2')
+        return str((rx - ry) // Integer('2')) + '*' + str((rx + ry) // Integer('2') - Integer('1'))
             
 #Для тестов
 if __name__ == '__main__':
-    a = Integer('-100')
-    b = Integer('7')
-    print(a ** b)
+    a = Integer('663')
+    b = Integer('0')
+    print(a.ferma())
