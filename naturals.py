@@ -1,5 +1,4 @@
 class Natural:
-
     def __init__(self, digits):
         '''Конструктор натурального числа, Васильев Максим'''
         self.digits = [int(i) for i in reversed(digits)]
@@ -32,6 +31,28 @@ class Natural:
                     return False
         return False
 
+    def bin(self):
+        '''Возвращает двоичное представление числа, Васильев Максим'''
+        a = Natural(str(self))
+        zero = Natural('0')
+        two = Natural('2')
+        res = ''
+        while zero < a:
+            res += str(a % two)
+            a = a // two
+        return res[::-1]
+
+    def __pow__(self, oth):
+        '''Быстрое возведение в степень, Васильев Максим'''
+        a = Natural(str(self))
+        b = oth.bin()
+        res = Natural('1')
+        for i in b:
+            if i == '1':
+                res = res * res * a
+            else:
+                res = res * res
+        return res
 
     def __le__(self, oth):
         '''COM_NN_D Сравнение двух чисел, Васильев Максим'''
@@ -133,7 +154,6 @@ class Natural:
             cur = a.digits[i] + over
             a.digits[i] = cur % 10
             over = cur // 10
-        #print("Division: self - {}".format(self))
         a.shrinkZeros()
         return a        
     
@@ -182,15 +202,19 @@ class Natural:
                 divided = True
                 k = 0
                 while num <= cur:
-                    #print('For {} run cur is {} num is {}'.format(k, cur, num))
+                    # print('For {} run cur is {} num is {}'.format(k, cur, num))
                     cur = cur - num
                     k += 1
-                    #print('For {} run cur is {} num is {}'.format(k, cur, num))
-                    #print(num <= cur)
+                    if cur.isZero():
+                        cur.digits = []
+                    # print('For {} run cur is {} num is {}'.format(k, cur, num))
+                    # print(num <= cur)
                 res.digits.append(k)
             if curNum.isZero() and cur.isZero():
                 res.digits = res.digits + curNum.digits
                 break
+        if not len(cur.digits):
+            cur.digits = [0]
         return [res.reverse(), cur]
 
     def __mod__(self, num):
@@ -207,10 +231,8 @@ class Natural:
         while zero < self and zero < b:
             if (self < b):
                 b = b % self
-                # print(b)
             else:
                 self = self % b
-                # print(self)
         return self + b
 
     def lcm(self, b):
@@ -219,6 +241,9 @@ class Natural:
 
 #Для тестов 
 if __name__ == '__main__':
-    a = Natural('122')
-    b = Natural('10')
-    print(a * b)
+    a = Natural('2')
+    b = Natural('1000')
+    print(Natural('30') % Natural('2'))
+    print(b.bin())
+    print(a ** b)
+    print(str(a ** b) == str(2 ** 1000))

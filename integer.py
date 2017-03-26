@@ -7,6 +7,7 @@ class Integer(Natural):
         if self.negative:
             digits = digits[1:]
         self.digits = [int(i) for i in reversed(digits)]
+   
     def __str__(self):
         '''Представление целого числа в строке, Васильев Максим'''
         s = ''
@@ -15,6 +16,7 @@ class Integer(Natural):
         if self.negative:
             s = '-'
         return s + ''.join(str(i) for i in reversed(self.digits))
+
     def __neg__(self):
         '''MUL_ZM_Z Умножение целого на -1, Васильев Максим'''
         a = Integer(str(self))
@@ -35,6 +37,14 @@ class Integer(Natural):
                 return False
         return True
 
+    def __pow__(self, oth):
+        '''Возведение целого числа в степень, Васильев Максим'''
+        a = Natural(str(self.abs()))
+        b = Natural(str(oth.abs()))
+        res = Integer(str(a ** b))
+        if self.negative and (b % Natural('2') == Natural('1')):
+            res.negative = self.negative
+        return res 
 
     def positivity(self):
         '''POZ_Z_D Определение положительности числа, Васильев Максим'''
@@ -43,7 +53,8 @@ class Integer(Natural):
         elif self.negative:
             return -1
         else:
-            return 1    
+            return 1
+                
     def ton(self):
         '''Преобразование Integer->Natural, Васильев Максим'''
         return Natural(str(self.abs()))
@@ -57,7 +68,7 @@ class Integer(Natural):
             result = Integer(str(a + b))
             result.negative = self.negative
         else:
-            result = Integer(str(a - b))
+            result = Integer(str(a - b))    
             if (a < b):
                 result.negative = oth.negative
             else:
@@ -100,6 +111,6 @@ class Integer(Natural):
             
 #Для тестов
 if __name__ == '__main__':
-    a = Integer('-10')
+    a = Integer('-100')
     b = Integer('7')
-    print(a // b)
+    print(a ** b)

@@ -1,6 +1,20 @@
 from integer import Integer
 from naturals import Natural
 
+def contForm(stri):
+    '''Возвращает непрерывную дробь в виде [x; x1, x2...], Васильев Максим'''
+    strf = stri.split()
+    res = ''
+    for i in range(len(strf)):
+        res = res + strf[i]
+        if i == 0:
+            res += '; '
+        elif i != len(strf) - 1:
+            res += ', '
+        
+    return '[' + res + ']'
+        
+
 class Rational:
     def __init__(self, str):
         '''Конструктор рационального числа, Васильев Максим'''
@@ -23,6 +37,7 @@ class Rational:
         return (oth - self).numer.negative
 
     def isZero(self):
+        '''Проверка дроби на ноль, Васильев Максим'''
         return self.numer.isZero()
 
 
@@ -47,9 +62,7 @@ class Rational:
 
     def isInteger(self):
         '''Проверка, является ли дробь - целым, Васильев Максим'''
-        if (self.numer.ton() % self.denom).isZero():
-            return True
-        return False
+        return (self.numer.ton() % self.denom).isZero()
 
     def red(self):
         '''Сокращение дроби, Гусева Екатерина'''
@@ -71,6 +84,19 @@ class Rational:
         '''Деление рациональных, Васильев Максим'''
         return self * oth.turn()
 
+    def toContinued(self):
+        '''Дробь в непрерывную, Васильев Максим'''
+        a = Natural(str(self.numer.abs()))
+        b = Natural(str(self.denom))
+        res = ''
+        while not a.isZero() and not b.isZero():
+            if a > b:
+                res += str(a // b) + ' '
+                a = a % b
+            else:
+                res += str(b // a) + ' '
+                b = b % a
+        return contForm(res)
 
     def toi(self):
         '''Преобразование в целое рационального, Васильев Максим'''
@@ -78,6 +104,6 @@ class Rational:
             return Integer(str(self.numer))
 
 if __name__ == '__main__':
-    a = Rational('1/3')
+    a = Rational('599/300')
     b = Rational('1/4')
-    print(a / b)
+    print(a.toContinued())

@@ -11,8 +11,8 @@ def xi(i):
 class Polynome:
     def __init__(self, str):
         '''Конструктор для класса многочленов, Васильев Максим'''
-        coeffs = str.split()
-        self.coeffs = [Rational(i) for i in reversed(coeffs)]
+        self.coeffs = [Rational(i) for i in reversed(str.split())]
+        
     def __str__(self):
         '''Возвращает строковое представление многочлена, Васильев Максим'''
         s = ''
@@ -48,18 +48,14 @@ class Polynome:
 
     def lessDeg(self, oth):
         '''Возвращает true если степень self < oth, Васильев Максим'''
-        if self.deg() < oth.deg():
-            return True
-        else:
-            return False
+        return self.deg() < oth.deg()
 
     def moreeqDeg(self, oth):
-        if self.deg() >= oth.deg():
-            return True
-        else:
-            return False
+        '''Возвращает true если степень self >= oth, Васильев Максим'''
+        return self.deg() >= oth.deg()
 
     def __gt__(self, oth):
+        '''Перегрузка > для класса Polynome, Васильев Максим'''
         if self.deg() > oth.deg():
             return True
         elif self.deg() < oth.deg():
@@ -132,7 +128,6 @@ class Polynome:
         i = 0
         while a.moreeqDeg(b):
             res.coeffs[da - i] = a.coeffs[-1]
-            #print(res)
             if not a.coeffs[-1].isZero():
                 cur = b.mulM(a.coeffs[-1], da - i)
                 a = a - cur
