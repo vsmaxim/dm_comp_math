@@ -6,7 +6,7 @@ class Natural:
     def __str__(self):
         '''Строковое представление натурального числа, Васильев Максим'''
         return ''.join([str(i) for i in reversed(self.digits)])
-    
+
     def __eq__(self, oth):
         '''Перегрузка оператора == для натуральных чисел, Васильев Максим'''
         if len(self.digits) != len(oth.digits):
@@ -58,11 +58,11 @@ class Natural:
         '''COM_NN_D Сравнение двух чисел, Васильев Максим'''
         if len(self.digits) < len(oth.digits):
             return True
-        elif len(self.digits) > len (oth.digits):
+        elif len(self.digits) > len(oth.digits):
             return False
         else:
-            for i in range(len(self.digits) -1, -1, -1):
-                if self.digits[i] < oth.digits[i]: 
+            for i in range(len(self.digits) - 1, -1, -1):
+                if self.digits[i] < oth.digits[i]:
                     return True
                 elif self.digits[i] > oth.digits[i]:
                     return False
@@ -72,25 +72,25 @@ class Natural:
         '''ADD_NN_N Сложение двух чисел, Васильев Максим'''
         a = Natural(str(self))
         b = Natural(str(oth))
-        if (a <= b): #Делаем так, чтобы в self хранилось большее число
+        if (a <= b):  # Делаем так, чтобы в self хранилось большее число
             a.digits, b.digits = b.digits, a.digits
         over = 0
-        for i in range(len(b.digits)): #Складываем поразрядно с числом oth
+        for i in range(len(b.digits)):  # Складываем поразрядно с числом oth
             cur = over + a.digits[i] + b.digits[i]
             over = cur // 10
             a.digits[i] = cur % 10
 
         i = len(b.digits)
-        while over > 0: #Избавляемся от переполнения разрядов
+        while over > 0:  # Избавляемся от переполнения разрядов
             if (i == len(a.digits)):
                 a.digits.append(0)
             cur = over + a.digits[i]
-            over = cur // 10 
+            over = cur // 10
             a.digits[i] = cur % 10
             i += 1
         return a
-    
-    def __mul__(self,oth):
+
+    def __mul__(self, oth):
         '''Умножение длинных чисел, Гусева Екатерина'''
         a = Natural(str(self))
         b = Natural(str(oth))
@@ -108,11 +108,10 @@ class Natural:
         '''Функция, переворачивающая число, Васильев Максим'''
         self.digits = [int(i) for i in reversed(self.digits)]
         return self
-    
+
     def mulk(self, k):
         '''MUL_ND_N Умножение на цифру, Гусева Екатерина'''
         res = [0] * len(self.digits)
-        ost = 0
         r = 0
         for i in range(len(self.digits)):
             res[i] = self.digits[i] * k + r
@@ -124,7 +123,7 @@ class Natural:
         b.digits = res
         return b
 
-    def mulNk(self,k):
+    def mulNk(self, k):
         '''MUL_Nk_N Умножение на 10^k, Гусева Екатерина'''
         oth = Natural('')
         oth.digits = [0] * k + self.digits
@@ -135,8 +134,6 @@ class Natural:
         try:
             while not self.digits[-1] and len(self.digits) - 1:
                 self.digits.pop()
-        except:
-            pass
 
     def __sub__(self, oth):
         '''SUB_NN_N Вычитание из большего натур. меньшего, Васильев Максим'''
@@ -155,8 +152,8 @@ class Natural:
             a.digits[i] = cur % 10
             over = cur // 10
         a.shrinkZeros()
-        return a        
-    
+        return a
+
     def isZero(self):
         '''NZER_N_B Проверка на ноль, Васильев Максим'''
         for i in self.digits:
@@ -167,14 +164,14 @@ class Natural:
     def inc(self):
         '''ADD_1N_N Добавление единицы, Васильев Максим'''
         if (self.digits[0] < 9):
-        #Если последняя цифра меньше 9, то переполнения разряда не возникает
-        #И мы просто добавляем единицу
+            # Если последняя цифра меньше 9, то переполнения
+            # разряда не возникает и мы просто добавляем единицу
             self.digits[0] += 1
         else:
             i = 0
             while (self.digits[i] == 9):
-            #Если переполнение разряда всёже возникает, то ищем пока
-            #Текущий разряд перестанет быть 9 и добавляем единицу
+                # Если переполнение разряда всёже возникает, то ищем пока
+                # Текущий разряд перестанет быть 9 и добавляем единицу
                 self.digits[i] = 0
                 i += 1
                 if i == len(self.digits):
@@ -186,11 +183,11 @@ class Natural:
         '''SUB_NDN_N Вычитание из натурального числа другого
         натурального умноженного на цифру Васильев Максим'''
         return self - oth.mulk(k)
-    
+
     def div(self, num):
         '''Деление числа на число столбиком, Васильев Максим'''
         cur = Natural('')
-        res = Natural('') 
+        res = Natural('')
         curNum = Natural(str(self))
         divided = False
         for i in range(len(self.digits) - 1, -1, -1):
@@ -202,13 +199,10 @@ class Natural:
                 divided = True
                 k = 0
                 while num <= cur:
-                    # print('For {} run cur is {} num is {}'.format(k, cur, num))
                     cur = cur - num
                     k += 1
                     if cur.isZero():
                         cur.digits = []
-                    # print('For {} run cur is {} num is {}'.format(k, cur, num))
-                    # print(num <= cur)
                 res.digits.append(k)
             if curNum.isZero() and cur.isZero():
                 res.digits = res.digits + curNum.digits
@@ -220,11 +214,11 @@ class Natural:
     def __mod__(self, num):
         '''Взятие остатка от деления, Васильев Максим'''
         return self.div(num)[1]
-    
+
     def __floordiv__(self, num):
         '''Взятие целой части от деления, Васильев Максим'''
         return self.div(num)[0]
-    
+
     def gcd(self, b):
         '''НОД двух натуральных чисел (алгоритм Евклида), Васильев Максим'''
         zero = Natural('0')
@@ -238,7 +232,7 @@ class Natural:
     def lcm(self, b):
         '''НОК двух натуральных чисел, Васильев Максим'''
         return (self * b) // self.gcd(b)
-    
+
     def sqrt(self):
         '''Поиск примерного корня двоичным поиском, Васильев Максим'''
         two = Natural('2')
@@ -253,7 +247,8 @@ class Natural:
                 right = m
         return m
 
-#Для тестов 
+
+# Для тестов
 if __name__ == '__main__':
     a = Natural('2')
     b = Natural('45893')

@@ -1,5 +1,6 @@
 from naturals import Natural
 
+
 class Integer(Natural):
     def __init__(self, digits):
         '''Конструктор целого числа, Васильев Максим'''
@@ -7,7 +8,7 @@ class Integer(Natural):
         if self.negative:
             digits = digits[1:]
         self.digits = [int(i) for i in reversed(digits)]
-   
+
     def __str__(self):
         '''Представление целого числа в строке, Васильев Максим'''
         s = ''
@@ -24,12 +25,12 @@ class Integer(Natural):
         return a
 
     def abs(self):
-        '''ABS_Z_N Абсолютная величина числа, Васильев Максим''' 
+        '''ABS_Z_N Абсолютная величина числа, Васильев Максим'''
         res = Integer('0')
         res.digits = self.digits
         res.negative = False
         return res
-    
+
     def isZero(self):
         '''Проверка целого числа на ноль, Васильев Максим'''
         for i in range(len(self.digits)):
@@ -44,11 +45,11 @@ class Integer(Natural):
         res = Integer(str(a ** b))
         if self.negative and (b % Natural('2') == Natural('1')):
             res.negative = self.negative
-        return res 
+        return res
 
     def positivity(self):
         '''POZ_Z_D Определение положительности числа, Васильев Максим'''
-        if isZero(self):
+        if self.isZero():
             return 0
         elif self.negative:
             return -1
@@ -63,7 +64,7 @@ class Integer(Natural):
                 return not self.abs().ton() < oth.abs().ton()
             else:
                 return self.abs().ton() < oth.abs().ton()
-                
+
     def ton(self):
         '''Преобразование Integer->Natural, Васильев Максим'''
         return Natural(str(self.abs()))
@@ -77,13 +78,13 @@ class Integer(Natural):
             result = Integer(str(a + b))
             result.negative = self.negative
         else:
-            result = Integer(str(a - b))    
+            result = Integer(str(a - b))
             if (a < b):
                 result.negative = oth.negative
             else:
                 result.negative = self.negative
         return result
-            
+
     def __sub__(self, oth):
         '''Вычитание двух целых чисел, Васильев Максим'''
         return self + -oth
@@ -95,7 +96,7 @@ class Integer(Natural):
         result = Integer(str(a * b))
         result.negative = self.negative != oth.negative
         return result
-    
+
     def div(self, oth):
         '''Деление, возвращающее остаток и целую часть, Васильев Максим'''
         a = self.ton()
@@ -111,17 +112,16 @@ class Integer(Natural):
         res = self.div(oth)[1]
         if res.negative:
             res = res + oth.abs()
-        return res           
-
+        return res
 
     def __div__(self, oth):
         '''Перегрузка операции //, целая часть от деления'''
         return self.div(oth)[0]
 
     def ferma(self):
-        '''Метод ферма для нечетных чисел, и четных имеющих в разложении 2 
+        '''Метод ферма для нечетных чисел, и четных имеющих в разложении 2
         более чем в 1 степени, Васильев Максим'''
-        a = Integer(str(self.ton().sqrt()))    
+        a = Integer(str(self.ton().sqrt()))
         rx = Integer('2') * a + Integer('1')
         ry = Integer('1')
         rxy = a ** Integer('2') - self
@@ -133,8 +133,9 @@ class Integer(Natural):
                 rxy = rxy - ry
                 ry = ry + Integer('2')
         return str((rx - ry) // Integer('2')) + '*' + str((rx + ry) // Integer('2') - Integer('1'))
-            
-#Для тестов
+
+
+# Для тестов
 if __name__ == '__main__':
     a = Integer('663')
     b = Integer('0')

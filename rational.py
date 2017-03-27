@@ -1,6 +1,7 @@
 from integer import Integer
 from naturals import Natural
 
+
 def contForm(stri):
     '''Возвращает непрерывную дробь в виде [x; x1, x2...], Васильев Максим'''
     strf = stri.split()
@@ -11,9 +12,8 @@ def contForm(stri):
             res += '; '
         elif i != len(strf) - 1:
             res += ', '
-        
     return '[' + res + ']'
-        
+
 
 class Rational:
     def __init__(self, str):
@@ -21,7 +21,7 @@ class Rational:
         a = str.split('/')
         self.numer = Integer(a[0])
         self.denom = Natural(a[1])
-    
+
     def __str__(self):
         '''Строковое представление рационального числа, Васильев Максим'''
         return '{}/{}'.format(self.numer, self.denom)
@@ -40,23 +40,23 @@ class Rational:
         '''Проверка дроби на ноль, Васильев Максим'''
         return self.numer.isZero()
 
-
-    def __add__(self,oth):
+    def __add__(self, oth):
         '''Сложение рациональных чисел, Гусева Екатерина'''
         a = Rational(str(self))
         b = Rational(str(oth))
         n_den = a.denom.lcm(b.denom)
-        a_k = n_den // a.denom #Коэффицент на который домножаем первый числитель
-        b_k = n_den // b.denom #Коэффициент на который домножжаем второй числитель
+        a_k = n_den // a.denom
+        # Коэффицент на который домножаем первый числитель
+        b_k = n_den // b.denom
+        # Коэффициент на который домножжаем второй числитель
         n_num = a.numer * Integer(str(a_k)) + b.numer * Integer(str(b_k))
         return Rational(str(n_num) + '/' + str(n_den))
 
-    
     def __sub__(self, oth):
         '''Вычитание рациональных чисел, Васильев Максим'''
         return self + -oth
 
-    def __mul__(self,oth):
+    def __mul__(self, oth):
         '''Умножение рациональных чисел, Гусева Екатерина'''
         return Rational(str(self.numer * oth.numer) + '/' + str(self.denom * oth.denom)).red()
 
@@ -102,6 +102,7 @@ class Rational:
         '''Преобразование в целое рационального, Васильев Максим'''
         if self.denom == Natural('1'):
             return Integer(str(self.numer))
+
 
 if __name__ == '__main__':
     a = Rational('599/300')
