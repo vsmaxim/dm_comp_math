@@ -11,22 +11,39 @@ def xi(i):
         return ''
 
 
+def isRational(str):
+    '''Возвращает True если коэфициент в рациональной форме и False
+    в ином случае'''
+    if '/' in str:
+        return True
+    else:
+        return False
+
+
 class Polynome:
     def __init__(self, str):
         '''Конструктор для класса многочленов, Васильев Максим'''
         # Полином хранится как массив рациональных чисел (коэфициентов)
-        self.coeffs = [Rational(i) for i in reversed(str.split())]
+        self.coeffs = []
+        for i in reversed(str.split()):
+            if isRational(i):
+                self.coeffs.append(Rational(i))
+            else:
+                self.coeffs.append(Rational(i + '/1'))
 
     def __str__(self):
         '''Возвращает строковое представление многочлена, Васильев Максим'''
         s = ''
+        for i in range(len(self.coeffs)):
+            if self.coeffs[i].isInteger:
+                self.coeffs[i] = self.coeffs[i].toi()
         # Черная магия
         for i in range(len(self.coeffs)):
             # Мономы с коэффициентом 0 не выводим
-            if self.coeffs[i].numer.isZero():
+            if self.coeffs[i].isZero():
                 continue
             # Если моном положительный - выводим с плюсиком
-            if not self.coeffs[i].numer.negative:
+            if not self.coeffs[i].isNegative():
                 buf = '+ {}'.format(self.coeffs[i])
             else:
                 # Иначе просто выводим
@@ -199,11 +216,3 @@ class Polynome:
         # Делим многочлен на НОД от многочлена и его производной
         # Возвращаем <object Polynome>
         return self // self.gcd(self.derivative())
-
-
-if __name__ == '__main__':
-    x = Polynome('1/1 0/1 -1/1')
-    y = Polynome('1/1 1/1')
-    print(x // y)
-    print(x % y)
-  

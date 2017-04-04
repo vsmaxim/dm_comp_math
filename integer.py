@@ -42,6 +42,10 @@ class Integer(Natural):
         # Возвращаем <object Integer>
         return res
 
+    def isNegative(self):
+        '''Возвращает True если отрицательный, False в ином случае'''
+        return self.negative
+
     def isZero(self):
         '''Проверка целого числа на ноль, Васильев Максим'''
         # Алгоритм, аналогичный реализованному для натуральных

@@ -111,6 +111,10 @@ class Rational:
         # Возвращаем <object Rational>
         return self * oth.turn()
 
+    def isNegative(self):
+        '''Возвращает True если отрицательный, False если положительный'''
+        return self.numer.negative
+
     def toContinued(self):
         '''Дробь в непрерывную, Васильев Максим'''
         a = Natural(str(self.numer.abs()))
