@@ -137,6 +137,6 @@ class Integer(Natural):
 
 # Для тестов
 if __name__ == '__main__':
-    a = Integer('-2')
-    b = Integer('7')
+    a = Integer('-7')
+    b = Integer('-5')
     print(a - b)
