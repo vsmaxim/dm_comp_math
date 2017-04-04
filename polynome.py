@@ -167,3 +167,4 @@ if __name__ == '__main__':
     y = Polynome('1/1 1/1')
     print(x // y)
     print(x % y)
+  

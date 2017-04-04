@@ -1,17 +1,24 @@
 class Natural:
     def __init__(self, digits):
         '''Конструктор натурального числа, Васильев Максим'''
+        # Натуральное число хранится в виде массива его цифр в 10сс
         self.digits = [int(i) for i in reversed(digits)]
 
     def __str__(self):
         '''Строковое представление натурального числа, Васильев Максим'''
+        # Метод, возвращающий строковое представление числа, необходим
+        # в python для работы многих функций, таких как print(), str(),
+        # и так далее
         return ''.join([str(i) for i in reversed(self.digits)])
 
     def __eq__(self, oth):
         '''Перегрузка оператора == для натуральных чисел, Васильев Максим'''
+        # Если длины чисел различаются, то они неравны
         if len(self.digits) != len(oth.digits):
             return False
         else:
+            # Поразрядное сравнение цифр, до того момента, как не будет
+            # найден первый разряд, в котором разряды отличаются
             for i in range(len(self.digits)):
                 if self.digits[i] != oth.digits[i]:
                     return False
@@ -19,43 +26,63 @@ class Natural:
 
     def __lt__(self, oth):
         '''Перегрузка оператора < для натуральных чисел, Васильев Максим'''
+        # Если длина числа меньше длины второго, то первое число точно
+        # меньше чем второе число, лидирующие нули не хранятся.
         if len(self.digits) < len(oth.digits):
             return True
         elif len(self.digits) > len(oth.digits):
             return False
         else:
+            # Если же длины чисел совпали, то поразрядно ищем с конца
+            # разряд, в котором они будут отличаться, и в зависимости
+            # от характера различия (<>) делаем вывод и возвращаем значение
             for i in range(len(self.digits) - 1, -1, -1):
                 if self.digits[i] < oth.digits[i]:
                     return True
                 elif self.digits[i] > oth.digits[i]:
                     return False
+        # Если таких разрядов не было найдено, то числа равны
         return False
 
     def bin(self):
         '''Возвращает двоичное представление числа, Васильев Максим'''
+        # Создаём копию чисел, чтобы не повредить исходные в результате
+        # операций над ними
         a = Natural(str(self))
         zero = Natural('0')
         two = Natural('2')
         res = ''
+        # Пока наше число больше нуля, делим его на 2 и добавляем в конец
+        # остаток от деления на 2 (0 или 1)
         while zero < a:
             res += str(a % two)
             a = a // two
+        # Так как представление числа в 2сс получилось перевёрнутым, возвращаем
+        # строку в обратном порядке
         return res[::-1]
 
     def __pow__(self, oth):
         '''Быстрое возведение в степень, Васильев Максим'''
         a = Natural(str(self))
         b = oth.bin()
+        # res - переменная в которой хранится результат возведения в
+        # степень <object Natural>
         res = Natural('1')
         for i in b:
+            # Если текущий бит равен 1 - это эквивалентно возведению в квадрат
+            #  и умножению на основание
             if i == '1':
                 res = res * res * a
+            # Иначе - это эквивалентно возведению в квадрат
             else:
                 res = res * res
+        # Возвращаем результат <object Natural>
         return res
 
     def __le__(self, oth):
         '''COM_NN_D Сравнение двух чисел, Васильев Максим'''
+        # Перегрузка оператора <= работает по аналогии с
+        # предыдущими перегрузками таких же операторов
         if len(self.digits) < len(oth.digits):
             return True
         elif len(self.digits) > len(oth.digits):
@@ -70,10 +97,13 @@ class Natural:
 
     def __add__(self, oth):
         '''ADD_NN_N Сложение двух чисел, Васильев Максим'''
+        # Создаём копии чисел, чтобы не испортить исходные
         a = Natural(str(self))
         b = Natural(str(oth))
-        if (a <= b):  # Делаем так, чтобы в self хранилось большее число
+        # Делаем так, чтобы в a хранилось большее число
+        if (a <= b):
             a.digits, b.digits = b.digits, a.digits
+        # over - переменная под переполнение разряда
         over = 0
         for i in range(len(b.digits)):  # Складываем поразрядно с числом oth
             cur = over + a.digits[i] + b.digits[i]
@@ -134,6 +164,8 @@ class Natural:
         try:
             while not self.digits[-1] and len(self.digits) - 1:
                 self.digits.pop()
+        except:
+            pass
 
     def __sub__(self, oth):
         '''SUB_NN_N Вычитание из большего натур. меньшего, Васильев Максим'''
@@ -250,6 +282,5 @@ class Natural:
 
 # Для тестов
 if __name__ == '__main__':
-    a = Natural('2')
-    b = Natural('45893')
-    print(b.sqrt())
+    a = Natural('5')
+    b = Natural('3')
