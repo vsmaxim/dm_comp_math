@@ -786,6 +786,47 @@ def int_pow():
 
     output.grid(row=2, columnspan=8)
 
+    def int_qr():
+    def sum(a, b):
+        a1 = Integer(str(a))
+        b1 = Integer(str(b))
+        text = a + " = (" + b + ") * (" + str(a1//b1) + ") +" + str(a1%b1)
+        return text
+
+    def inserter(value):
+        """ Inserts specified value into text widget """
+        output.delete("0.0", "end")
+        output.insert("0.0", value)
+
+    def handler():
+        try:
+            # make sure that we entered correct values
+            a_val = str(a.get())
+            b_val = str(b.get())
+            inserter(sum(a_val, b_val))
+        except ValueError:
+            inserter("Убедитесь, что вы ввели оба числа")
+
+    win = Toplevel(root)
+    win.title("Представление деления в виде a = n*q + r")
+    win.resizable(width=False, height=False)
+    frame = Frame(win)
+    frame.grid()
+
+    a = Entry(frame, width=16)
+    a.grid(row=1, column=1, padx=(4, 0))
+    a_lab = Label(frame, text="Введите первое число").grid(row=1, column=2)
+
+    b = Entry(frame, width=16)
+    b.grid(row=1, column=3, )
+    b_lab = Label(frame, text="Введите второе число").grid(row=1, column=4)
+    but = Button(frame, text="Solve", width=10,command = handler).grid(row=1, column=7, padx=(10, 0))
+
+    # место для вывода решения уравнения
+    output = Text(frame, bg="lightblue", font="Arial 12", width=60, height=15)
+
+    output.grid(row=2, columnspan=8)
+    
 ######################################################################################################################
 def oth_ferma():
     def division(a):
@@ -1262,6 +1303,7 @@ hm.add_command(label="Умножение", command = int_mul)
 hm.add_command(label="DIV", command = int_div)
 hm.add_command(label="MOD", command = int_mod)
 hm.add_command(label="Возведение целого числа в степень", command = int_pow)
+hm.add_command(label="Представление деления в виде a = n*q + r", command = int_qr)
 
 dm = Menu(m,tearoff=0) #и еще один пункт, ого (Дроби)
 m.add_cascade(label="Рациональные числа", menu = dm)
