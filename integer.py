@@ -151,8 +151,7 @@ class Integer(Natural):
                 res[1] = res[1] + oth
                 res[0] = res[0] - Integer('1')
             else:
-                res[1] = (-res[1] + oth)
-                res[0] = res[0] - Integer('1')
+                res[1] = -res[1]
         if not res[0].isNegative() and not res[1].isZero() and self.isNegative():
             res[1] = -res[1]
         # Возвращаем <object Integer>
@@ -191,7 +190,7 @@ class Integer(Natural):
         return str((rx - ry) // Integer('2')) + '*' + str((rx + ry) // Integer('2') - Integer('1'))
 
 if __name__ == '__main__':
-    a = Integer('7')
+    a = Integer('14')
     b = Integer('-6')
     print(a // b)
     print(a % b)
