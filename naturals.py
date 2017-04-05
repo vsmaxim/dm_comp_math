@@ -197,7 +197,7 @@ class Natural:
             while not self.digits[-1] and len(self.digits) - 1:
                 self.digits.pop()
         except:
-            pass
+            self.digits = [0]
 
     def __sub__(self, oth):
         '''SUB_NN_N Вычитание из большего натур. меньшего, Васильев Максим'''
@@ -262,6 +262,8 @@ class Natural:
         # Заводим пару <object Natural> для результатов
         cur = Natural('')
         res = Natural('')
+        if (self < num):
+            return [Natural('0'), self]
         # curNum - число, которое остается в результате вычитаний
         curNum = Natural(str(self))
         # divided - флаг, отвечающий за то, что найдена хотя бы одна цифра
@@ -358,3 +360,9 @@ class Natural:
                 right = m
         # Результат - найденное число, <object Natural>
         return m
+
+if __name__ == '__main__':
+    a = Natural('3')
+    b = Natural('4')
+    print(a // b)
+    print(a % b)

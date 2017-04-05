@@ -193,7 +193,7 @@ class Integer(Natural):
         return str((rx - ry) // Integer('2')) + '*' + str((rx + ry) // Integer('2') - Integer('1'))
 
 if __name__ == '__main__':
-    a = Integer('-10')
-    b = Integer('4')
+    a = Integer('3')
+    b = Integer('-4')
     print(a // b)
     print(a % b)
