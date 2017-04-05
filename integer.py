@@ -146,17 +146,22 @@ class Integer(Natural):
         for i in range(len(res)):
             res[i] = Integer(str(res[i]))
             res[i].negative = self.negative != oth.negative
+        if not res[1].isZero() and res[1].isNegative():
+            if not oth.isNegative():
+                res[1] = res[1] + oth
+                res[0] = res[0] - Integer('1')
+            else:
+                res[1] = (-res[1] + oth)
+                res[0] = res[0] - Integer('1')
+        if not res[0].isNegative() and not res[1].isZero() and self.isNegative():
+            res[1] = -res[1]
         # Возвращаем <object Integer>
         return res
 
     def __mod__(self, oth):
         '''Перегрузка операции %, остаток от деления'''
-        res = self.div(oth)[1]
-        # Если остаток отрицательный - добавляем к нему один раз модуль
-        if res.negative:
-            res = res + oth.abs()
         # Возвращаем <object Integer>
-        return res
+        return self.div(oth)[1]
 
     def __div__(self, oth):
         '''Перегрузка операции //, целая часть от деления'''
@@ -184,3 +189,9 @@ class Integer(Natural):
                 ry = ry + Integer('2')
         # Возвращаем результат разложения в виде a * b где a и b - делители
         return str((rx - ry) // Integer('2')) + '*' + str((rx + ry) // Integer('2') - Integer('1'))
+
+if __name__ == '__main__':
+    a = Integer('7')
+    b = Integer('-6')
+    print(a // b)
+    print(a % b)
