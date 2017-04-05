@@ -142,3 +142,4 @@ class Rational:
         if self.denom == Natural('1'):
             # Возвращаем <object Integer>
             return Integer(str(self.numer))
+        return self

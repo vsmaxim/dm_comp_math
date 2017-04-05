@@ -138,7 +138,7 @@ class Polynome:
             a.coeffs.append(Rational('0/1'))
         # Находим коэффициенты при старших степенях
         for i in range(len(self.coeffs)):
-            a.coeffs[i + n] = self.coeffs[i] * k
+            a.coeffs[i + n] = self.coeffs[i] * Rational(str(k) + '/1')
         # Возвращаем <object Polynome>
         return a
 
@@ -175,10 +175,10 @@ class Polynome:
         i = 0
         # Пока степень делимого больше степени делителя
         while a.moreeqDeg(b):
-            res.coeffs[da - i] = a.coeffs[-1]
+            res.coeffs[da - i] = a.coeffs[-1] / b.coeffs[-1]
             # Вычитаем полином умноженный на коэфициент при старшем члене
             if not a.coeffs[-1].isZero():
-                cur = b.mulM(a.coeffs[-1], da - i)
+                cur = b.mulM(res.coeffs[da - i], da - i)
                 a = a - cur
             i += 1
             # Выкидываем первый коэффициент, т.к. мы его вычли
@@ -196,6 +196,15 @@ class Polynome:
         '''Остаток от деления многочленов, Васильев Максим'''
         # Возвращаем <object Polynome>
         return self.div(oth)[1]
+
+    def divlcm(self):
+        a = Polynome(self.tostr())
+        gcd = a.coeffs[0].numer.gcd(a.coeffs[0].numer)
+        lcm = a.coeffs[0].denom.lcm(a.coeffs[0].denom)
+        for i in range(1, len(a.coeffs)):
+            gcd = gcd.gcd(a.coeffs[i].numer)
+            lcm = lcm.lcm(a.coeffs[i].denom)
+        return a // Polynome(str(gcd) + '/' + str(lcm))
 
     def gcd(self, oth):
         '''НОД многочленов, Васильев Максим'''
@@ -215,4 +224,10 @@ class Polynome:
         '''Кратные корни в простые, Васильев Максим'''
         # Делим многочлен на НОД от многочлена и его производной
         # Возвращаем <object Polynome>
-        return self // self.gcd(self.derivative())
+        return self // self.gcd(self.derivative().divlcm())
+
+
+if __name__ == '__main__':
+    a = Polynome('1 2 1')
+    b = Polynome('2 2')
+    print(a.nmr())
