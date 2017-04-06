@@ -361,8 +361,48 @@ class Natural:
         # Результат - найденное число, <object Natural>
         return m
 
+    def primes(self):
+        d = int(str(self))
+        a = [i for i in range(2, d + 1)]
+        cur = 0
+        for i in a:
+            cur += 1
+            j = cur
+            while j < len(a):
+                if a[j] % i == 0:
+                    a.pop(j)
+                    continue
+                j += 1
+        return a
+
+    def factorize(self):
+        d = int(str(self))
+        a = self.primes()
+        res = []
+        # Текущий множитель
+        i = 0
+        while d != 1:
+            cur = a[i]
+            size = 0
+            while d % cur == 0:
+                d /= cur
+                size += 1
+            i += 1
+            if size != 0:
+                res.append((cur, size))
+        return res
+
+    def eilerfi(self):
+        fact = self.factorize()
+        res = 1
+        for i in fact:
+            if i[1] == 1:
+                res *= (i[0] - 1)
+            else:
+                res *= (i[0] ** (i[1] - 1))
+        return Natural(str(res))
+
+
 if __name__ == '__main__':
-    a = Natural('3')
-    b = Natural('4')
-    print(a // b)
-    print(a % b)
+    a = Natural('4')
+    print(a.eilerfi())

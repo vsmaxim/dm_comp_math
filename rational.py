@@ -95,6 +95,10 @@ class Rational:
         # Возвращаем <object Rational>
         return self
 
+    def abs(self):
+        self.numer.negative = False
+        return self
+
     def turn(self):
         '''Получение вида 1/x - для дроби, Васильев Максим'''
         # Числитель становится знаменателем

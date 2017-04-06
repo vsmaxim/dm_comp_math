@@ -47,7 +47,7 @@ class Polynome:
                 buf = '+ {}'.format(self.coeffs[i])
             else:
                 # Иначе просто выводим
-                buf = '{}'.format(self.coeffs[i])
+                buf = '- {}'.format(self.coeffs[i].abs())
             # Ага
             s = '{}{} '.format(buf, xi(i)) + s
         # Негоже первое положительное число с плюсом выводить

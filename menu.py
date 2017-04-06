@@ -46,7 +46,6 @@ def rat_divis():
     b.grid(row=1, column=3, )
     b_lab = Label(frame, text="Введите вторую дробь").grid(row=1, column=4)
     but = Button(frame, text="Рассчитать", width=10, command = handler).grid(row=1, column=7, padx=(10, 0))
-
     # место для вывода решения уравнения
     output = Text(frame, bg="lightblue", font="Arial 12", width=60, height=15)
 
