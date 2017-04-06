@@ -1,4 +1,5 @@
 from tkinter import *
+from naturals import cortarrtostr
 from naturals import Natural
 from rational import Rational
 from polynome import Polynome
@@ -14,7 +15,7 @@ def rat_divis():
     def division(a, b):
         a1 = Rational(str(a))
         b1 = Rational(str(b))
-        text =  a1, "/", b1, "=", a1/b1
+        text =  a1, "/", b1, "=", (a1/b1).red()
         return text
 
     def inserter(value):
@@ -55,7 +56,7 @@ def rat_sum():
     def division(a, b):
         a1 = Rational(str(a))
         b1 = Rational(str(b))
-        text =  a1, "+", b1, "=", a1+b1
+        text =  a1, "+", b1, "=", (a1+b1).red()
         return text
 
     def inserter(value):
@@ -97,7 +98,7 @@ def rat_sub():
     def division(a, b):
         a1 = Rational(str(a))
         b1 = Rational(str(b))
-        text =  a1, "-", b1, "=", a1-b1
+        text =  a1, "-", b1, "=", (a1-b1).red()
         return text
 
     def inserter(value):
@@ -139,7 +140,7 @@ def rat_mul():
     def division(a, b):
         a1 = Rational(str(a))
         b1 = Rational(str(b))
-        text =  a1, "*", b1, "=", a1*b1
+        text =  a1, "*", b1, "=", (a1*b1).red()
         return text
 
     def inserter(value):
@@ -970,6 +971,110 @@ def oth_toCont():
     output = Text(frame, bg="lightblue", font="Arial 12", width=60, height=15)
 
     output.grid(row=2, columnspan=8)
+
+
+def oth_primes():
+    def division(a):
+        a1 = Natural(str(a))
+        text = "Количество простых чисел до " + a + " = "+ str(Natural.primes(a1))
+        return text
+
+    def inserter(value):
+        """ Inserts specified value into text widget """
+        output.delete("0.0", "end")
+        output.insert("0.0", value)
+
+    def handler():
+        """ Get the content of entries and passes result to the output area """
+
+        a_val = str(a.get())
+        inserter(division(a_val))
+
+    win = Toplevel(root)
+    win.resizable(width=False, height=False)
+    win.title("Вывод простых чисел")
+    frame = Frame(win)
+    frame.grid()
+
+    a = Entry(frame, width=16)
+    a.grid(row=1, column=1, padx=(150, 0))
+    a_lab = Label(frame, text="Введите число").grid(row=1, column=6)
+
+    but = Button(frame, text="Рассчитать", width=10, command=handler).grid(row=1, column=7, padx=(100, 0))
+
+    # место для вывода решения уравнения
+    output = Text(frame, bg="lightblue", font="Arial 12", width=60, height=15)
+
+    output.grid(row=2, columnspan=8)
+
+def oth_factorize():
+    def division(a):
+        a1 = Natural(str(a))
+        text = a + " = "+ cortarrtostr(a1.factorize())
+        return text
+
+    def inserter(value):
+        """ Inserts specified value into text widget """
+        output.delete("0.0", "end")
+        output.insert("0.0", value)
+
+    def handler():
+        """ Get the content of entries and passes result to the output area """
+
+        a_val = str(a.get())
+        inserter(division(a_val))
+
+    win = Toplevel(root)
+    win.resizable(width=False, height=False)
+    win.title("Вывод представления в виде произведения простых чисел")
+    frame = Frame(win)
+    frame.grid()
+
+    a = Entry(frame, width=16)
+    a.grid(row=1, column=1, padx=(150, 0))
+    a_lab = Label(frame, text="Введите число").grid(row=1, column=6)
+
+    but = Button(frame, text="Рассчитать", width=10, command=handler).grid(row=1, column=7, padx=(100, 0))
+
+    # место для вывода решения уравнения
+    output = Text(frame, bg="lightblue", font="Arial 12", width=60, height=15)
+
+    output.grid(row=2, columnspan=8)
+
+def oth_eiler():
+    def division(a):
+        a1 = Natural(str(a))
+        text = "fi(" + a + ") = "+ str(Natural.eilerfi(a1))
+        return text
+
+    def inserter(value):
+        """ Inserts specified value into text widget """
+        output.delete("0.0", "end")
+        output.insert("0.0", value)
+
+    def handler():
+        """ Get the content of entries and passes result to the output area """
+
+        a_val = str(a.get())
+        inserter(division(a_val))
+
+    win = Toplevel(root)
+    win.resizable(width=False, height=False)
+    win.title("Вычисление функции Эйлера")
+    frame = Frame(win)
+    frame.grid()
+
+    a = Entry(frame, width=16)
+    a.grid(row=1, column=1, padx=(150, 0))
+    a_lab = Label(frame, text="Введите число").grid(row=1, column=6)
+
+    but = Button(frame, text="Рассчитать", width=10, command=handler).grid(row=1, column=7, padx=(100, 0))
+
+    # место для вывода решения уравнения
+    output = Text(frame, bg="lightblue", font="Arial 12", width=60, height=15)
+
+    output.grid(row=2, columnspan=8)
+
 #########################################################################################################################################
 def pol_sum():
     def sum(a, b):
@@ -1330,5 +1435,8 @@ tm.add_command(label="Метод Ферма", command = oth_ferma)
 tm.add_command(label="Поиск примерного корня",command=oth_sqrt)
 tm.add_command(label="Быстрое возведение в степень", command = oth_pow)
 tm.add_command(label="Дробь в непрерывную", command = oth_toCont)
+tm.add_command(label="Простые числа до N", command = oth_primes)
+tm.add_command(label="Разложение числа на простые множители", command = oth_factorize)
+tm.add_command(label="Функция Эйлера", command = oth_eiler)
 
 root.mainloop()

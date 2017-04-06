@@ -1,3 +1,9 @@
+def cortarrtostr(arr):
+    s = ''
+    for i in arr:
+       s += str(i[0]) + '^' + str(i[1]) + '*'
+    return s[:len(s)-1]
+
 class Natural:
     def __init__(self, digits):
         '''Конструктор натурального числа, Васильев Максим'''
@@ -362,6 +368,7 @@ class Natural:
         return m
 
     def primes(self):
+        '''Поиск простых чисел до заданного'''
         d = int(str(self))
         a = [i for i in range(2, d + 1)]
         cur = 0
@@ -376,6 +383,7 @@ class Natural:
         return a
 
     def factorize(self):
+        '''Представление числа в виде произведения простых'''
         d = int(str(self))
         a = self.primes()
         res = []
@@ -393,6 +401,7 @@ class Natural:
         return res
 
     def eilerfi(self):
+        '''Функция Эйлера'''
         fact = self.factorize()
         res = 1
         for i in fact:
@@ -404,5 +413,6 @@ class Natural:
 
 
 if __name__ == '__main__':
-    a = Natural('4')
-    print(a.eilerfi())
+    a = Natural('15')
+    print(a.factorize())
+    print(cortarrtostr(a.factorize()))
